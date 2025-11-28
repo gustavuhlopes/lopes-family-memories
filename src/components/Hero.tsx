@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import heroImage from "@/assets/hero-family.jpg";
+
+// Importar todas as imagens existentes na pasta assets
+import heroImage1 from "@/assets/WhatsApp Image 2025-11-28 at 20.32.29.jpeg";
+import heroImage2 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30 (1).jpeg";
+import heroImage3 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30 (2).jpeg";
+import heroImage4 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30 (3).jpeg";
+import heroImage5 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30 (4).jpeg";
+import heroImage6 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30.jpeg";
 
 const Hero = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -38,15 +45,51 @@ const Hero = () => {
     document.querySelector("#programacao")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Array de imagens
+  const images = [
+    heroImage1,
+    heroImage2,
+    heroImage3,
+    heroImage4,
+    heroImage5,
+    heroImage6,
+  ];
+
+  // Estado para controlar o índice da imagem atual
+  const [currentImage, setCurrentImage] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  // Troca automática de imagem a cada 5 segundos
+  useEffect(() => {
+    const timeout = setTimeout(() => setFade(false), 4000); // Começa a transição
+    const interval = setInterval(() => {
+      setFade(true);
+      setTimeout(() => {
+        setCurrentImage((prev) => (prev + 1) % images.length);
+        setFade(false);
+      }, 1000); // Tempo da transição
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, []);
+
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Image Carousel with Overlay */}
       <div className="absolute inset-0">
-        <img 
-          src={heroImage} 
-          alt="Família Lopes reunida" 
-          className="w-full h-full object-cover"
-        />
+        {images.map((img, idx) => (
+          <img
+            key={idx}
+            src={img}
+            alt={`Família Lopes ${idx + 1}`}
+            className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentImage && fade ? "opacity-100 z-0" : "opacity-0"
+            }`}
+            style={{ transitionProperty: "opacity" }}
+          />
+        ))}
         <div className="absolute inset-0 gradient-hero" />
       </div>
 

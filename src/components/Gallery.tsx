@@ -1,11 +1,12 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "./ui/card";
 import { Dialog, DialogContent, DialogTitle } from "./ui/dialog";
 import { ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
-
 import storage from "../integrations/firebase/storage";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -14,33 +15,37 @@ const Gallery = () => {
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  // Removido campo de nome da foto
   const [uploadFile, setUploadFile] = useState<File | null>(null);
 
-  // Função para buscar as fotos
-  async function loadImages() {
+  // Função para buscar as fotos usando apenas o SDK modular
+  const loadImages = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const photosRef = ref(storage, "photos");
-      console.log("Buscando imagens em:", photosRef.fullPath);
       const res = await listAll(photosRef);
       const list = await Promise.all(
         res.items.map(async (itemRef) => {
-          const url = await getDownloadURL(itemRef);
-          return {
-            id: itemRef.name,
-            url,
-            name: itemRef.name,
-          };
+          try {
+            const url = await getDownloadURL(itemRef);
+            return {
+              id: itemRef.name,
+              url,
+              name: itemRef.name,
+            };
+          } catch (err) {
+            // Se não conseguir pegar o downloadURL, ignora a imagem
+            return null;
+          }
         })
       );
-      setImages(list);
+      setImages(list.filter(Boolean) as { id: string; url: string; name: string }[]);
     } catch (err) {
       console.error("Erro ao carregar fotos do Storage:", err);
       setImages([]);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  }
+  };
 
   useEffect(() => {
     loadImages();
@@ -54,6 +59,28 @@ const Gallery = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadModalOpen]);
+
+  // Função para upload de imagem
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setUploadError(null);
+    if (!uploadFile) {
+      setUploadError("Selecione uma imagem.");
+      return;
+    }
+    setUploading(true);
+    try {
+      const storageRef = ref(storage, `photos/${Date.now()}_${uploadFile.name}`);
+      await uploadBytes(storageRef, uploadFile);
+      setUploadFile(null);
+      setUploadModalOpen(false);
+    } catch (err) {
+      console.error("Erro ao enviar foto:", err);
+      setUploadError("Erro ao enviar foto: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <section id="fotos" className="py-20 bg-card">
@@ -97,48 +124,7 @@ const Gallery = () => {
                   <DialogTitle asChild>
                     <h3 className="text-lg font-semibold mb-4">Enviar nova foto</h3>
                   </DialogTitle>
-                  <form
-                    className="space-y-4"
-                    onSubmit={async (e) => {
-                      e.preventDefault();
-                      setUploadError(null);
-                      if (!uploadFile) {
-                        setUploadError("Selecione uma imagem.");
-                        return;
-                      }
-                      setUploading(true);
-                      try {
-                        // 1. Upload da imagem para o Storage
-                        const storageRef = ref(storage, `photos/${Date.now()}_${uploadFile.name}`);
-                        await uploadBytes(storageRef, uploadFile);
-                        console.log("Imagem enviada para:", storageRef.fullPath);
-                        // 2. Resetar formulário e fechar modal
-                        setUploadFile(null);
-                        setUploadModalOpen(false);
-                        // 3. Atualizar galeria buscando do Storage
-                        setLoading(true);
-                        const photosRef = ref(storage, "photos");
-                        const res = await listAll(photosRef);
-                        const list = await Promise.all(
-                          res.items.map(async (itemRef) => {
-                            const url = await getDownloadURL(itemRef);
-                            return {
-                              id: itemRef.name,
-                              url,
-                              name: itemRef.name,
-                            };
-                          })
-                        );
-                        setImages(list);
-                      } catch (err) {
-                        console.error("Erro ao enviar foto:", err);
-                        setUploadError("Erro ao enviar foto: " + (err instanceof Error ? err.message : String(err)));
-                      } finally {
-                        setUploading(false);
-                      }
-                    }}
-                  >
-                    {/* Campo de nome removido */}
+                  <form className="space-y-4" onSubmit={handleUpload}>
                     <div>
                       <label className="block text-sm font-medium mb-1">Imagem</label>
                       <input
@@ -177,8 +163,6 @@ const Gallery = () => {
                     alt={img.name}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
-
-                  {/* Nome removido do hover */}
                 </div>
               ))}
             </div>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -24,6 +25,7 @@ interface Message {
 }
 
 const Messages = () => {
+  console.log("[Messages] Componente renderizado");
   const [messages, setMessages] = useState<Message[]>([]);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -31,13 +33,20 @@ const Messages = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log("[Messages] useEffect inicial executado");
     // Query para buscar mensagens ordenadas por data
     const q = query(collection(db, "messages"), orderBy("created_at", "desc"));
+    console.log("[Messages] Query Firestore criada", q);
     // Escuta em tempo real
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      console.log("[Messages] onSnapshot callback chamado. Quantidade de documentos:", querySnapshot.size);
       const msgs: Message[] = [];
+      if (querySnapshot.empty) {
+        console.log("[Messages] Nenhum documento encontrado na coleção.");
+      }
       querySnapshot.forEach((doc) => {
         const data = doc.data();
+        console.log("[Messages] Documento recebido:", doc.id, data);
         msgs.push({
           id: doc.id,
           name: data.name,
@@ -45,15 +54,23 @@ const Messages = () => {
           created_at: data.created_at?.toDate ? data.created_at.toDate().toISOString() : ""
         });
       });
+      console.log("[Messages] Mensagens recebidas do Firebase:", msgs);
       setMessages(msgs);
+    }, (error) => {
+      console.error("[Messages] Erro no onSnapshot:", error);
     });
-    return () => unsubscribe();
+    return () => {
+      console.log("[Messages] Limpando listener do onSnapshot");
+      unsubscribe();
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("[Messages] handleSubmit chamado", { name, message });
 
     if (!name.trim() || !message.trim()) {
+      console.warn("[Messages] Nome ou mensagem vazios");
       toast({
         title: "Atenção",
         description: "Por favor, preencha seu nome e mensagem.",
@@ -63,12 +80,14 @@ const Messages = () => {
     }
 
     setIsSubmitting(true);
+    console.log("[Messages] Enviando mensagem para o Firestore...");
     try {
-      await addDoc(collection(db, "messages"), {
+      const docRef = await addDoc(collection(db, "messages"), {
         name: name.trim(),
         message: message.trim(),
         created_at: serverTimestamp(),
       });
+      console.log("[Messages] Mensagem salva no Firebase, docRef:", docRef);
       toast({
         title: "Mensagem enviada! 💛",
         description: "Sua mensagem foi adicionada ao mural com sucesso.",
@@ -76,7 +95,7 @@ const Messages = () => {
       setName("");
       setMessage("");
     } catch (error) {
-      console.error("Erro ao enviar mensagem:", error);
+      console.error("[Messages] Erro ao enviar mensagem:", error);
       toast({
         title: "Erro",
         description: "Não foi possível enviar sua mensagem. Tente novamente.",
@@ -84,20 +103,27 @@ const Messages = () => {
       });
     }
     setIsSubmitting(false);
+    console.log("[Messages] handleSubmit finalizado");
   };
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return "";
+    if (!dateString) {
+      console.warn("[Messages] formatDate chamado com string vazia");
+      return "";
+    }
     const date = new Date(dateString);
-    return date.toLocaleDateString("pt-BR", {
+    const formatted = date.toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "long",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
+    console.log("[Messages] formatDate:", dateString, "->", formatted);
+    return formatted;
   };
 
+  console.log("[Messages] Renderizando JSX", { messages, name, message, isSubmitting });
   return (
     <section id="mensagens" className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -114,7 +140,6 @@ const Messages = () => {
               Deixe seu recado de carinho para a família
             </p>
           </div>
-
           {/* Message Form */}
           <Card className="p-6 md:p-8 shadow-soft border-2 border-primary/10">
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -127,7 +152,10 @@ const Messages = () => {
                   type="text"
                   placeholder="Digite seu nome"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    console.log("[Messages] Alterando nome:", e.target.value);
+                    setName(e.target.value);
+                  }}
                   disabled={isSubmitting}
                   className="text-base"
                 />
@@ -141,7 +169,10 @@ const Messages = () => {
                   id="message"
                   placeholder="Compartilhe uma mensagem de carinho, uma memória especial ou um recado para a família..."
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e) => {
+                    console.log("[Messages] Alterando mensagem:", e.target.value);
+                    setMessage(e.target.value);
+                  }}
                   disabled={isSubmitting}
                   rows={4}
                   className="text-base resize-none"
@@ -173,38 +204,42 @@ const Messages = () => {
               </Card>
             ) : (
               <div className="space-y-4">
-                {messages.map((msg) => (
-                  <Card
-                    key={msg.id}
-                    className="p-6 shadow-soft hover:shadow-warm transition-all duration-300 animate-fade-in"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-2xl">
-                        💛
-                      </div>
-                      <div className="flex-1 space-y-2">
-                        <div className="flex items-baseline gap-3 flex-wrap">
-                          <h4 className="font-semibold text-foreground text-lg">
-                            {msg.name}
-                          </h4>
-                          <span className="text-sm text-muted-foreground">
-                            {formatDate(msg.created_at)}
-                          </span>
+                {messages.map((msg, idx) => {
+                  console.log(`[Messages] Renderizando mensagem #${idx}`, msg);
+                  return (
+                    <Card
+                      key={msg.id}
+                      className="p-6 shadow-soft hover:shadow-warm transition-all duration-300 animate-fade-in"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-2xl">
+                          💛
                         </div>
-                        <p className="text-foreground/90 leading-relaxed whitespace-pre-wrap">
-                          {msg.message}
-                        </p>
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-baseline gap-3 flex-wrap">
+                            <h4 className="font-semibold text-foreground text-lg">
+                              {msg.name}
+                            </h4>
+                            <span className="text-sm text-muted-foreground">
+                              {formatDate(msg.created_at)}
+                            </span>
+                          </div>
+                          <p className="text-foreground/90 leading-relaxed whitespace-pre-wrap">
+                            {msg.message}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
               </div>
             )}
           </div>
         </div>
       </div>
+
     </section>
   );
-};
+}
 
 export default Messages;
