@@ -4,7 +4,7 @@ import { Card } from "./ui/card";
 
 const Location = () => {
   const address = "R. Sd. Cento e Quatro - Campinho de Baixo, Lagoa Santa - MG, 33400-000";
-  const mapsUrl = "https://maps.app.goo.gl/QiB4uBsVF59DbtUM6";
+  const mapsUrl = "https://maps.app.goo.gl/939myWGfgFhynzda7";
 
   return (
     <section id="local" className="py-20 bg-card">
@@ -51,7 +51,7 @@ const Location = () => {
           <div className="relative rounded-2xl overflow-hidden shadow-soft border-2 border-primary/10">
             <div className="aspect-video w-full">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3748.5!2d-43.9!3d-19.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDM2JzAwLjAiUyA0M8KwNTQnMDAuMCJX!5e0!3m2!1spt-BR!2sbr!4v1234567890"
+                src="https://www.google.com/maps?q=-19.573013,-43.906914&z=17&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -76,9 +76,9 @@ const Location = () => {
               <p className="text-sm text-muted-foreground">Jardim e área de lazer</p>
             </Card>
             <Card className="p-6 text-center shadow-soft">
-              <div className="text-3xl mb-3">♿</div>
-              <h4 className="font-semibold text-foreground mb-2">Acessível</h4>
-              <p className="text-sm text-muted-foreground">Local acessível para todos</p>
+              <div className="text-3xl mb-3">🏠</div>
+              <h4 className="font-semibold text-foreground mb-2">Muitos Quartos</h4>
+              <p className="text-sm text-muted-foreground">Local para todos</p>
             </Card>
           </div>
         </div>

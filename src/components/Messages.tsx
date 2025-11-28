@@ -3,7 +3,16 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
+import { db } from "@/integrations/firebase/client";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  serverTimestamp,
+  onSnapshot
+} from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { Heart } from "lucide-react";
 
@@ -22,44 +31,24 @@ const Messages = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchMessages();
-    
-    // Subscribe to realtime updates
-    const channel = supabase
-      .channel("family_messages")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "family_messages",
-        },
-        (payload) => {
-          setMessages((prev) => [payload.new as Message, ...prev]);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    // Query para buscar mensagens ordenadas por data
+    const q = query(collection(db, "messages"), orderBy("created_at", "desc"));
+    // Escuta em tempo real
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const msgs: Message[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        msgs.push({
+          id: doc.id,
+          name: data.name,
+          message: data.message,
+          created_at: data.created_at?.toDate ? data.created_at.toDate().toISOString() : ""
+        });
+      });
+      setMessages(msgs);
+    });
+    return () => unsubscribe();
   }, []);
-
-  const fetchMessages = async () => {
-    const { data, error } = await supabase
-      .from("family_messages")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Erro ao carregar mensagens:", error);
-      return;
-    }
-
-    if (data) {
-      setMessages(data);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,34 +63,31 @@ const Messages = () => {
     }
 
     setIsSubmitting(true);
-
-    const { error } = await supabase.from("family_messages").insert([
-      {
+    try {
+      await addDoc(collection(db, "messages"), {
         name: name.trim(),
         message: message.trim(),
-      },
-    ]);
-
-    if (error) {
-      console.error("Erro ao enviar mensagem:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível enviar sua mensagem. Tente novamente.",
-        variant: "destructive",
+        created_at: serverTimestamp(),
       });
-    } else {
       toast({
         title: "Mensagem enviada! 💛",
         description: "Sua mensagem foi adicionada ao mural com sucesso.",
       });
       setName("");
       setMessage("");
+    } catch (error) {
+      console.error("Erro ao enviar mensagem:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível enviar sua mensagem. Tente novamente.",
+        variant: "destructive",
+      });
     }
-
     setIsSubmitting(false);
   };
 
   const formatDate = (dateString: string) => {
+    if (!dateString) return "";
     const date = new Date(dateString);
     return date.toLocaleDateString("pt-BR", {
       day: "2-digit",
