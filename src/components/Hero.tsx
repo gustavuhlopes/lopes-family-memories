@@ -101,12 +101,12 @@ const Hero = () => {
               Família Lopes
             </h1>
             <p className="text-2xl md:text-3xl text-white/95 font-medium drop-shadow-md">
-              Onde as memórias viram tradição 🏡
+              Nossa cor é força. Nossa união é raiz. Nosso amor é resistência.✊🏽
             </p>
           </div>
 
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-            Prepare-se para um dia inesquecível de união, alegria e tradição. Junte-se a nós nesta 
+            Prepare-se para um dia inesquecível de união e alegria. Junte-se a nós nesta 
             celebração especial da nossa família!
           </p>
 
