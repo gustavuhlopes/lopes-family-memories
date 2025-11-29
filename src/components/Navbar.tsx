@@ -20,7 +20,6 @@ const Navbar = () => {
     { label: "Programação", href: "#programacao" },
     { label: "Fotos", href: "#fotos" },
     { label: "Mensagens", href: "#mensagens" },
-    { label: "História", href: "#historia" },
   ];
 
   const scrollToSection = (href: string) => {

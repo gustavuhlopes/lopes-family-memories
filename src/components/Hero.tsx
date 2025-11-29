@@ -55,41 +55,39 @@ const Hero = () => {
     heroImage6,
   ];
 
-  // Estado para controlar o índice da imagem atual
-  const [currentImage, setCurrentImage] = useState(0);
-  const [fade, setFade] = useState(true);
+  // Estado para controlar o deslocamento do carrossel
+  const [offset, setOffset] = useState(0);
 
-  // Troca automática de imagem a cada 5 segundos
+  // Carrossel horizontal infinito automático
   useEffect(() => {
-    const timeout = setTimeout(() => setFade(false), 4000); // Começa a transição
     const interval = setInterval(() => {
-      setFade(true);
-      setTimeout(() => {
-        setCurrentImage((prev) => (prev + 1) % images.length);
-        setFade(false);
-      }, 1000); // Tempo da transição
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
+      setOffset((prev) => prev + 0.5);
+    }, 40); // Aproximadamente 30fps, mais devagar
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image Carousel with Overlay */}
-      <div className="absolute inset-0">
-        {images.map((img, idx) => (
-          <img
-            key={idx}
-            src={img}
-            alt={`Família Lopes ${idx + 1}`}
-            className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              idx === currentImage && fade ? "opacity-100 z-0" : "opacity-0"
-            }`}
-            style={{ transitionProperty: "opacity" }}
-          />
-        ))}
+      {/* Carrossel horizontal infinito */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <div
+          className="flex h-full"
+          style={{
+            width: `${images.length * 200}%`,
+            transform: `translateX(-${(offset % (images.length * 100))}vw)`,
+            transition: "none",
+          }}
+        >
+          {[...images, ...images].map((img, idx) => (
+            <img
+              key={idx}
+              src={img}
+              alt={`Família Lopes ${idx + 1}`}
+              className="w-screen h-full object-cover flex-shrink-0"
+              draggable={false}
+            />
+          ))}
+        </div>
         <div className="absolute inset-0 gradient-hero" />
       </div>
 
@@ -101,7 +99,7 @@ const Hero = () => {
               Família Lopes
             </h1>
             <p className="text-2xl md:text-3xl text-white/95 font-medium drop-shadow-md">
-              Nossa cor é força. Nossa união é raiz. Nosso amor é resistência.✊🏽
+              Nossa cor é força. Nossa união é raiz. Nosso amor é resistência. ✊🏽
             </p>
           </div>
 
