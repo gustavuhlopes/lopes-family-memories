@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Cores quentes e acolhedoras da Família Lopes */
+    /* Cores quentes e acolhedoras da Lopes e Assis */
     --background: 40 60% 97%;
     --foreground: 20 15% 25%;
 

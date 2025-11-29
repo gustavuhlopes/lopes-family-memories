@@ -58,7 +58,7 @@ const Location = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Localização do Evento da Família Lopes"
+                title="Localização do Evento da Lopes e Assis"
               />
             </div>
           </div>

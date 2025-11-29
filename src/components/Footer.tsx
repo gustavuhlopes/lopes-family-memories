@@ -13,7 +13,7 @@ const Footer = () => {
             <div className="space-y-3">
               <h3 className="text-lg font-bold text-foreground flex items-center justify-center md:justify-start gap-2">
                 <span>🏡</span>
-                Família Lopes
+                Lopes e Assis
               </h3>
               <p className="text-sm text-muted-foreground">
                 Celebrando união, amor e tradição através das gerações.
@@ -67,7 +67,7 @@ const Footer = () => {
           {/* Bottom */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} Família Lopes. Feito com amor para nossa família.
+              © {currentYear} Lopes e Assis. Feito com amor para nossa família.
             </p>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>Desenvolvido com</span>
@@ -79,7 +79,7 @@ const Footer = () => {
           {/* Special Message */}
           <div className="text-center pt-4">
             <p className="text-sm font-medium text-primary italic">
-              "Família Lopes - Onde as memórias viram tradição" 🏡
+              "Lopes e Assis - Onde as memórias viram tradição" 🏡
             </p>
           </div>
         </div>

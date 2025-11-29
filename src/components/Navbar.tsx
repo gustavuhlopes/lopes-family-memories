@@ -41,7 +41,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16 md:h-20">
             <div className="flex items-center gap-2">
               <span className="text-2xl">🏡</span>
-              <span className="font-bold text-xl text-foreground">Família Lopes</span>
+              <span className="font-bold text-xl text-foreground">Lopes e Assis</span>
             </div>
 
             {/* Desktop Menu */}
