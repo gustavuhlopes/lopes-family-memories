@@ -18,7 +18,7 @@ const Hero = () => {
   });
 
   // Data do evento - ajustar conforme necessário
-  const eventDate = new Date("2025-12-20T14:00:00");
+  const eventDate = new Date("2025-12-19T12:00:00");
 
   useEffect(() => {
     const calculateTimeLeft = () => {

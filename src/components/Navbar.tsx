@@ -20,6 +20,7 @@ const Navbar = () => {
     { label: "Programação", href: "#programacao" },
     { label: "Fotos", href: "#fotos" },
     { label: "Mensagens", href: "#mensagens" },
+    { label: "Cardápio", href: "/menu", isPage: true },
   ];
 
   const scrollToSection = (href: string) => {
@@ -46,15 +47,25 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-foreground/80 hover:text-primary transition-colors font-medium"
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navItems.map((item) =>
+                item.isPage ? (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <button
+                    key={item.href}
+                    onClick={() => scrollToSection(item.href)}
+                    className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                  >
+                    {item.label}
+                  </button>
+                )
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -78,15 +89,26 @@ const Navbar = () => {
             onClick={() => setIsMobileMenuOpen(false)}
           />
           <div className="relative h-full flex flex-col items-center justify-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                className="text-2xl font-medium text-foreground hover:text-primary transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) =>
+              item.isPage ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="text-2xl font-medium text-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <button
+                  key={item.href}
+                  onClick={() => scrollToSection(item.href)}
+                  className="text-2xl font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  {item.label}
+                </button>
+              )
+            )}
           </div>
         </div>
       )}
