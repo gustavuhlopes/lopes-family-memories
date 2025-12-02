@@ -7,13 +7,15 @@ import Program from "@/components/Program";
 import Gallery from "@/components/Gallery";
 import Messages from "@/components/Messages";
 import History from "@/components/History";
+
 import Footer from "@/components/Footer";
+import MetaFinanceiraGoogle from "@/components/MetaFinanceiraGoogle";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-1">
         <Hero />
         <MenuAnnouncement />
         <Location />
@@ -22,6 +24,8 @@ const Index = () => {
         <Messages />
         <History />
       </main>
+      {/* Sessão de meta financeira alegre */}
+      <MetaFinanceiraGoogle />
       <Footer />
     </div>
   );
