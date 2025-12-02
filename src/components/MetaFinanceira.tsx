@@ -43,6 +43,25 @@ const MetaFinanceira: React.FC<MetaFinanceiraProps> = ({ valorAtual, meta, loadi
       <p className="text-lg text-yellow-800 mb-4">
         Já arrecadamos <span className="font-bold">R$ {valorAtual.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span> de <span className="font-bold">R$ {meta.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</span>!
       </p>
+      {/* Espaço para a chave PIX com botão de copiar */}
+      <div className="my-6 p-4 bg-white border-2 border-yellow-400 rounded-lg shadow flex flex-col items-center">
+        <span className="text-yellow-700 font-semibold text-lg mb-2">Contribua via PIX:</span>
+        <div className="flex items-center gap-2">
+          <span id="pix-key" className="bg-yellow-100 px-4 py-2 rounded font-mono text-yellow-900 text-base select-all break-all">
+            eae3ab07-4a08-4d0f-94c8-1c0d6692f3a1
+          </span>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText('eae3ab07-4a08-4d0f-94c8-1c0d6692f3a1');
+            }}
+            className="ml-2 px-3 py-2 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold rounded transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-600"
+            title="Copiar chave PIX"
+          >
+            Copiar
+          </button>
+        </div>
+        <span className="text-yellow-600 text-xs mt-2">(Clique no botão para copiar a chave)</span>
+      </div>
       <div className="w-full bg-yellow-200 rounded-full h-6 mb-2 overflow-hidden">
         <div
           className="bg-yellow-400 h-6 rounded-full transition-all duration-700 flex items-center justify-end pr-2"
