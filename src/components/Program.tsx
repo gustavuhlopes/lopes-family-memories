@@ -14,8 +14,8 @@ const Program = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [now, setNow] = useState<Date>(new Date());
 
-  // Data de liberação: 15 de dezembro de 2025, 00:00:00
-  const releaseDate = new Date(2025, 11, 15, 0, 0, 0); // mês 11 = dezembro (0-indexed)
+  // Data de liberação: 10 de dezembro de 2025, 00:00:00
+  const releaseDate = new Date(2025, 11, 10, 0, 0, 0); // mês 11 = dezembro (0-indexed)
 
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
@@ -135,7 +135,7 @@ const Program = () => {
                   <div className="text-xs text-muted-foreground">seg</div>
                 </div>
               </div>
-              <p className="mt-6 text-muted-foreground">Volte aqui no dia <strong>15 de dezembro</strong> para ver a programação completa!</p>
+              <p className="mt-6 text-muted-foreground">Volte aqui no dia <strong>10 de dezembro</strong> para ver a programação completa!</p>
             </Card>
           ) : (
             <>
