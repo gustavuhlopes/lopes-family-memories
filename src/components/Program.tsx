@@ -10,47 +10,23 @@ interface Activity {
   color: string;
 }
 
-const Program = () => {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [now, setNow] = useState<Date>(new Date());
-
-  // Data de liberação: 10 de dezembro de 2025, 00:00:00
-  const releaseDate = new Date(2025, 11, 10, 0, 0, 0); // mês 11 = dezembro (0-indexed)
-
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const getCountdown = () => {
-    const diff = releaseDate.getTime() - now.getTime();
-    if (diff <= 0) return null;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-    return { days, hours, minutes, seconds };
-  };
-
-  const countdown = getCountdown();
-
-  const activities: Activity[] = [
+const activitiesSabado: Activity[] = [
     {
-      time: "12:00",
+      time: "11:00",
       title: "Chegada e Boas-Vindas",
       description: "Hora de abraçar a família! Chegue, acomode-se e prepare-se para um dia maravilhoso. Teremos música ambiente para recebê-los com carinho.",
       icon: "🤗",
       color: "bg-primary/10 text-primary",
     },
     {
-      time: "14:00",
+      time: "13:00",
       title: "Churrasco e Confraternização",
-      description: "Delicioso churrasco preparado com amor! Carnes selecionadas, acompanhamentos tradicionais e muito bate-papo. Momento perfeito para colocar o papo em dia.",
+      description: "Delicioso churrasco preparado com amor! Carnes selecionadas, acompanhamentos tradicionais e muito bate-papo. Momento perfeito para colocar o papo em dia. Abra sua cervejinha e vamos celebrar juntos!",
       icon: "🍖",
       color: "bg-secondary/10 text-secondary",
     },
     {
-      time: "16:00",
+      time: "14:00",
       title: "Piscina e Diversão",
       description: "Hora de se refrescar! Piscina liberada para todas as idades. Não esqueça o protetor solar e a disposição!",
       icon: "🏊",
@@ -58,17 +34,17 @@ const Program = () => {
     },
     {
       time: "17:30",
+      title: "Karaokê em Família",
+      description: "Solte a voz e divirta-se com toda a família! Escolha suas músicas favoritas, cante em grupo ou solo e viva momentos de alegria, risadas e muita descontração. Não importa o talento, o importante é participar e celebrar juntos!",
+      icon: "🎤",
+      color: "bg-secondary/10 text-secondary",
+    },
+    {
+      time: "17:30",
       title: "Gincana da Família",
       description: "Competição saudável e divertida! Brincadeiras para todas as idades, prêmios especiais e muita risada garantida. Venha mostrar o espírito Lopes!",
       icon: "🎯",
       color: "bg-primary/10 text-primary",
-    },
-    {
-      time: "18:30",
-      title: "Música ao Vivo",
-      description: "Momento cultural com música ao vivo! Repertório especial com clássicos que marcaram gerações da nossa família. Prepare a voz para cantar junto!",
-      icon: "🎤",
-      color: "bg-secondary/10 text-secondary",
     },
     {
       time: "19:30",
@@ -93,6 +69,61 @@ const Program = () => {
     },
   ];
 
+const activitiesDomingo: Activity[] = [
+    {
+      time: "09:00",
+      title: "Café da Manhã",
+      description: "Comece o domingo com um café da manhã reforçado, rodeado pela família. Pães, frutas, café e muita conversa boa para renovar as energias.",
+      icon: "🥐",
+      color: "bg-primary/10 text-primary",
+    },
+    {
+      time: "13:00",
+      title: "Almoço com Churrasco e Piscina",
+      description: "Mais um momento de confraternização! Churrasco delicioso e piscina liberada para aproveitar o último dia juntos. Desfrute, relaxe e celebre!",
+      icon: "🍖🏊",
+      color: "bg-secondary/10 text-secondary",
+    },
+    {
+      time: "18:00",
+      title: "Arrumação para Ir Embora",
+      description: "Hora de organizar as coisas, despedir-se e garantir que tudo esteja pronto para a entrega do sítio às 19h. Agradecemos por cada momento compartilhado!",
+      icon: "🧳",
+      color: "bg-accent/10 text-accent",
+    },
+  ];
+// ...fim do array activitiesDomingo
+
+const Program = () => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [countdown, setCountdown] = useState<{days: number, hours: number, minutes: number, seconds: number} | null>(null);
+
+  useEffect(() => {
+    const targetDate = new Date('2025-12-10T00:00:00').getTime();
+    
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      
+      if (distance < 0) {
+        setCountdown(null);
+        return;
+      }
+      
+      setCountdown({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      });
+    };
+    
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="programacao" className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -106,7 +137,7 @@ const Program = () => {
               Programação do Evento
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Um dia repleto de atividades especiais planejadas para fortalecer nossa união
+              Um final de semana repleto de atividades especiais planejadas para fortalecer nossa união
             </p>
           </div>
 
@@ -141,45 +172,78 @@ const Program = () => {
             <>
               {/* Timeline */}
               <div className="space-y-4">
-                {activities.map((activity, index) => (
-                  <Card
-                    key={index}
-                    className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-warm border-2 ${
-                      expandedIndex === index ? "border-primary shadow-warm" : "border-border"
-                    }`}
-                    onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
-                  >
-                    <div className="flex items-start gap-4">
-                      {/* Icon */}
-                      <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl ${activity.color}`}>
-                        {activity.icon}
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 space-y-2">
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <Badge variant="outline" className="font-semibold">
-                            {activity.time}
-                          </Badge>
-                          <h3 className="text-xl font-bold text-foreground">
-                            {activity.title}
-                          </h3>
+                <div>
+                  <h3 className="text-2xl font-bold mb-2 text-foreground">Sábado</h3>
+                  {activitiesSabado.map((activity, index) => (
+                    <Card
+                      key={"sabado-" + index}
+                      className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-warm border-2 ${
+                        expandedIndex === index ? "border-primary shadow-warm" : "border-border"
+                      }`}
+                      onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl ${activity.color}`}>
+                          {activity.icon}
                         </div>
-
-                        {expandedIndex === index && (
-                          <p className="text-muted-foreground leading-relaxed animate-fade-in">
-                            {activity.description}
-                          </p>
-                        )}
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <Badge variant="outline" className="font-semibold">
+                              {activity.time}
+                            </Badge>
+                            <h3 className="text-xl font-bold text-foreground">
+                              {activity.title}
+                            </h3>
+                          </div>
+                          {expandedIndex === index && (
+                            <p className="text-muted-foreground leading-relaxed animate-fade-in">
+                              {activity.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex-shrink-0 text-muted-foreground">
+                          {expandedIndex === index ? "▲" : "▼"}
+                        </div>
                       </div>
-
-                      {/* Expand Indicator */}
-                      <div className="flex-shrink-0 text-muted-foreground">
-                        {expandedIndex === index ? "▲" : "▼"}
+                    </Card>
+                  ))}
+                </div>
+                <div className="mt-8">
+                  <h3 className="text-2xl font-bold mb-2 text-foreground">Domingo</h3>
+                  {activitiesDomingo.map((activity, index) => (
+                    <Card
+                      key={"domingo-" + index}
+                      className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-warm border-2 ${
+                        expandedIndex === (index + activitiesSabado.length) ? "border-primary shadow-warm" : "border-border"
+                      }`}
+                      onClick={() => setExpandedIndex(expandedIndex === (index + activitiesSabado.length) ? null : (index + activitiesSabado.length))}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl ${activity.color}`}>
+                          {activity.icon}
+                        </div>
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <Badge variant="outline" className="font-semibold">
+                              {activity.time}
+                            </Badge>
+                            <h3 className="text-xl font-bold text-foreground">
+                              {activity.title}
+                            </h3>
+                          </div>
+                          {expandedIndex === (index + activitiesSabado.length) && (
+                            <p className="text-muted-foreground leading-relaxed animate-fade-in">
+                              {activity.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex-shrink-0 text-muted-foreground">
+                          {expandedIndex === (index + activitiesSabado.length) ? "▲" : "▼"}
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  ))}
+                </div>
               </div>
 
               {/* Footer Note */}

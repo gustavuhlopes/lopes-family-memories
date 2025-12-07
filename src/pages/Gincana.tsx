@@ -4,34 +4,16 @@ import { motion } from "framer-motion";
 
 
 // Lista real de participantes
-const adultos = [
-  "Gustavo", "Anne", "Eduardo", "Larissa", "Bruna Lais", "Thayson", "João", "Raí Marcel",
-  "Marcella", "Marcelino", "Marlene", "Fabrícia", "Vanessa", "Iracema", "Estevão", "Roanna",
-  "Regina Lopes", "Sebastiana Georgina", "José Lopes", "Mercilene", "Carol", "Jeferson", "Domitilla",
-  "Miguel", "Fabi", "Flávio", "José Gabriel", "Raíza", "Jander"
+
+const equipes = [
+  ["Jander", "Raíza", "Flávio", "Fabi", "Anne", "Gustavo", "Eduardo", "Larissa"],
+  ["Jeferson", "Carol", "Marcella", "Raí Marcel", "Vanessa", "Fabrícia", "Marcelino", "Marlene"],
+  ["Thayson", "Bruna Lais", "Nelci", "Heleno", "Iracema", "Regina Lopes", "Sebastiana Georgina", "José Lopes"],
+  ["Roanna", "Estevão", "João Lucas", "Jéssica", "Mercilene", "Domitilla", "Miguel", "José Gabriel"],
 ];
-// Crianças
-const criancas = ["Melina", "Jamile", "Pérola", "Hoji", "Lis Flor"];
-
-// Função para dividir adultos igualmente e distribuir crianças
-function dividirEquipesComCriancas(adultos: string[], criancas: string[], nEquipes: number) {
-  // Divide adultos
-  const equipes = Array.from({ length: nEquipes }, () => [] as string[]);
-  adultos.forEach((pessoa, i) => {
-    equipes[i % nEquipes].push(pessoa);
-  });
-  // Adiciona uma criança em cada equipe, a última vai para a equipe com menos adultos
-  criancas.forEach((crianca, i) => {
-    equipes[i % nEquipes].push(crianca + " 👧");
-  });
-  return equipes;
-}
-
-
-const equipes = dividirEquipesComCriancas(adultos, criancas, 4);
-const nomesEquipes = ["Equipe Sol", "Equipe Lua", "Equipe Estrela", "Equipe Cometa"];
-const coresEquipes = ["bg-yellow-100 text-yellow-800", "bg-blue-100 text-blue-800", "bg-pink-100 text-pink-800", "bg-green-100 text-green-800"];
-const iconesEquipes = ["☀️", "🌙", "⭐", "☄️"];
+const nomesEquipes = ["🟦 Equipe 1", "🟥 Equipe 2", "🟩 Equipe 3", "🟨 Equipe 4"];
+const coresEquipes = ["bg-blue-100 text-blue-800", "bg-red-100 text-red-800", "bg-green-100 text-green-800", "bg-yellow-100 text-yellow-800"];
+const iconesEquipes = ["🟦", "🟥", "🟩", "🟨"];
 
 const tarefasExemplo = [
   "Preparar um prato específico (ex.: arroz, farofa, salpicão, sobremesa)",
@@ -121,6 +103,52 @@ export default function Gincana() {
               Nada complicado, nada de estresse. É só pra gente se divertir, trabalhar em equipe e deixar tudo mais leve.
             </p>
           </div>
+        </motion.div>
+
+
+        {/* Desafios Especiais */}
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <Card className="mb-8 border-4 border-primary animate-slide-up shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-3xl flex items-center gap-2 text-primary">🔥 1. Desafio dos Molhos – Noite do Macarrão</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4 text-lg text-muted-foreground">A ceia será uma noite especial de macarrão, e cada equipe ficará responsável por preparar e levar um tipo de molho:</p>
+              <ul className="list-disc pl-6 text-lg mb-4">
+                <li><b>Equipe 1:</b> Molho Bolonhesa de Carne</li>
+                <li><b>Equipe 2:</b> Molho Bechamel (molho branco)</li>
+                <li><b>Equipe 3:</b> Molho Bolonhesa de Frango</li>
+                <li><b>Equipe 4:</b> Molho Quatro Queijos</li>
+              </ul>
+              <p className="text-md text-muted-foreground">Cada molho deve ser entregue pronto para servir, com atenção à apresentação e praticidade.</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+          <Card className="mb-8 border-4 border-green-500 animate-slide-up shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-3xl flex items-center gap-2 text-green-700">🎉 2. Desafio de Organização do Sítio</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4 text-lg text-muted-foreground">Cada equipe ficará responsável por organizar e decorar uma área específica do sítio:</p>
+              <ul className="list-disc pl-6 text-lg mb-4">
+                <li><b>Equipe 1:</b> Decoração próxima à piscina</li>
+                <li><b>Equipe 2:</b> Decoração próxima à churrasqueira</li>
+                <li><b>Equipe 3:</b> Itens de higiene e organização/decoração dos banheiros</li>
+                <li><b>Equipe 4:</b> Organização e decoração dos quartos
+                  <ul className="list-disc pl-6 text-base mt-2">
+                    <li>Definir onde será o quarto de cada pessoa.</li>
+                    <li>Como não há camas para todos, providenciar colchões para dormir no chão (são 25 camas pelo sítio, então 10 pessoas precisarão dormir em colchão).</li>
+                    <li>Organizar e distribuir os colchões nos quartos.</li>
+                    <li>Colocar nomes nas portas dos quartos para facilitar a identificação.</li>
+                    <li>Decorar os quartos</li>
+                  </ul>
+                </li>
+              </ul>
+              <p className="text-md text-muted-foreground">Essas tarefas devem ser realizadas <b>antes do início das atividades principais</b>, garantindo que todos cheguem e encontrem o ambiente preparado e acolhedor.</p>
+            </CardContent>
+          </Card>
         </motion.div>
 
         {/* Equipes */}
