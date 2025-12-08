@@ -94,35 +94,43 @@ const activitiesDomingo: Activity[] = [
   ];
 // ...fim do array activitiesDomingo
 
-const Program = () => {
+
+interface ProgramProps {
+  onCountdownChange?: (countdown: {days: number, hours: number, minutes: number, seconds: number} | null) => void;
+}
+
+const Program = ({ onCountdownChange }: ProgramProps) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [countdown, setCountdown] = useState<{days: number, hours: number, minutes: number, seconds: number} | null>(null);
 
   useEffect(() => {
     const targetDate = new Date('2025-12-10T00:00:00').getTime();
-    
+
     const updateCountdown = () => {
       const now = new Date().getTime();
       const distance = targetDate - now;
-      
+
       if (distance < 0) {
         setCountdown(null);
+        if (onCountdownChange) onCountdownChange(null);
         return;
       }
-      
-      setCountdown({
+
+      const newCountdown = {
         days: Math.floor(distance / (1000 * 60 * 60 * 24)),
         hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
         minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
         seconds: Math.floor((distance % (1000 * 60)) / 1000)
-      });
+      };
+      setCountdown(newCountdown);
+      if (onCountdownChange) onCountdownChange(newCountdown);
     };
-    
+
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
-    
+
     return () => clearInterval(interval);
-  }, []);
+  }, [onCountdownChange]);
 
   return (
     <section id="programacao" className="py-20 bg-background">

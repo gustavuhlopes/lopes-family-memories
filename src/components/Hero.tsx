@@ -9,7 +9,7 @@ import heroImage4 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30 (3).jpeg"
 import heroImage5 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30 (4).jpeg";
 import heroImage6 from "@/assets/WhatsApp Image 2025-11-28 at 20.38.30.jpeg";
 
-const Hero = () => {
+const Hero = ({ onCountdownEnd }: { onCountdownEnd?: () => void }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -32,6 +32,9 @@ const Hero = () => {
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        if (onCountdownEnd) onCountdownEnd();
       }
     };
 
@@ -39,7 +42,7 @@ const Hero = () => {
     const interval = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [onCountdownEnd]);
 
   const scrollToProgram = () => {
     document.querySelector("#programacao")?.scrollIntoView({ behavior: "smooth" });

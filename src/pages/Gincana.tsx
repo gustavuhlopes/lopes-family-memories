@@ -11,7 +11,7 @@ const equipes = [
   ["Thayson", "Bruna Lais", "Nelci", "Heleno", "Iracema", "Regina Lopes", "Sebastiana Georgina", "José Lopes"],
   ["Roanna", "Estevão", "João Lucas", "Jéssica", "Mercilene", "Domitilla", "Miguel", "José Gabriel"],
 ];
-const nomesEquipes = ["🟦 Equipe 1", "🟥 Equipe 2", "🟩 Equipe 3", "🟨 Equipe 4"];
+const nomesEquipes = [" Equipe 1", " Equipe 2", "Equipe 3", " Equipe 4"];
 const coresEquipes = ["bg-blue-100 text-blue-800", "bg-red-100 text-red-800", "bg-green-100 text-green-800", "bg-yellow-100 text-yellow-800"];
 const iconesEquipes = ["🟦", "🟥", "🟩", "🟨"];
 
@@ -53,112 +53,44 @@ const criteriosPontuacao = [
   {
     titulo: "Capricho / Apresentação",
     descricao: [
-      "5 → Caprichadinho",
-      "3 → Ok",
+      "10 → Caprichadinho",
+      "5 → Ok",
       "0 → Jogou de qualquer jeito"
     ],
-    max: 5
+    max: 10
   },
-  {
-    titulo: "Praticidade",
-    descricao: [
-      "5 → Resolveram tudo sem dar trabalho",
-      "3 → Pediram uma ajuda ou outra",
-      "0 → Só faltaram pedir manual de instruções"
-    ],
-    max: 5
-  }
 ];
 
-const cartoes = [
-  {
-    cor: "bg-yellow-200 text-yellow-900 border-yellow-400",
-    titulo: "Cartão Amarelo",
-    pontos: -3,
-    descricao: "Bagunça desnecessária, atraso leve, perguntas óbvias demais."
-  },
-  {
-    cor: "bg-red-200 text-red-900 border-red-400",
-    titulo: "Cartão Vermelho",
-    pontos: -7,
-    descricao: "Atraso grande, tarefa incompleta, esquecer itens essenciais."
-  }
-];
+
 
 export default function Gincana() {
   return (
     <section className="py-16 bg-background min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl space-y-10">
+        {/* Lançamento das Atividades e Apresentação das Equipes */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
           <div className="text-center space-y-3">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-2">
               <span className="text-3xl">🎄</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground">Gincana de Natal – Regras e Funcionamento</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground">Gincana de Natal – Lançamento das Atividades</h1>
             <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
               Família Lopes – 2025
             </p>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Este ano o nosso Natal vai ter algo especial: uma <b>GINCANA</b> em equipes, com atividades simples e divertidas — e que ao mesmo tempo vão ajudar na organização do nosso final de semana no sítio.<br/>
-              Nada complicado, nada de estresse. É só pra gente se divertir, trabalhar em equipe e deixar tudo mais leve.
+              Bem-vindos ao lançamento da nossa <b>GINCANA</b>! As equipes já estão formadas e preparadas para os desafios que vêm aí. Confira abaixo a divisão das equipes e prepare-se para entrar no clima de competição saudável e colaboração!
             </p>
           </div>
         </motion.div>
 
-
-        {/* Desafios Especiais */}
+        {/* Apresentação das Equipes */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <Card className="mb-8 border-4 border-primary animate-slide-up shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-3xl flex items-center gap-2 text-primary">🔥 1. Desafio dos Molhos – Noite do Macarrão</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4 text-lg text-muted-foreground">A ceia será uma noite especial de macarrão, e cada equipe ficará responsável por preparar e levar um tipo de molho:</p>
-              <ul className="list-disc pl-6 text-lg mb-4">
-                <li><b>Equipe 1:</b> Molho Bolonhesa de Carne</li>
-                <li><b>Equipe 2:</b> Molho Bechamel (molho branco)</li>
-                <li><b>Equipe 3:</b> Molho Bolonhesa de Frango</li>
-                <li><b>Equipe 4:</b> Molho Quatro Queijos</li>
-              </ul>
-              <p className="text-md text-muted-foreground">Cada molho deve ser entregue pronto para servir, com atenção à apresentação e praticidade.</p>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-          <Card className="mb-8 border-4 border-green-500 animate-slide-up shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-3xl flex items-center gap-2 text-green-700">🎉 2. Desafio de Organização do Sítio</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4 text-lg text-muted-foreground">Cada equipe ficará responsável por organizar e decorar uma área específica do sítio:</p>
-              <ul className="list-disc pl-6 text-lg mb-4">
-                <li><b>Equipe 1:</b> Decoração próxima à piscina</li>
-                <li><b>Equipe 2:</b> Decoração próxima à churrasqueira</li>
-                <li><b>Equipe 3:</b> Itens de higiene e organização/decoração dos banheiros</li>
-                <li><b>Equipe 4:</b> Organização e decoração dos quartos
-                  <ul className="list-disc pl-6 text-base mt-2">
-                    <li>Definir onde será o quarto de cada pessoa.</li>
-                    <li>Como não há camas para todos, providenciar colchões para dormir no chão (são 25 camas pelo sítio, então 10 pessoas precisarão dormir em colchão).</li>
-                    <li>Organizar e distribuir os colchões nos quartos.</li>
-                    <li>Colocar nomes nas portas dos quartos para facilitar a identificação.</li>
-                    <li>Decorar os quartos</li>
-                  </ul>
-                </li>
-              </ul>
-              <p className="text-md text-muted-foreground">Essas tarefas devem ser realizadas <b>antes do início das atividades principais</b>, garantindo que todos cheguem e encontrem o ambiente preparado e acolhedor.</p>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Equipes */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="mb-8 animate-slide-up">
             <CardHeader>
-              <CardTitle className="text-2xl flex items-center gap-2">👥 Divisão das Equipes</CardTitle>
+              <CardTitle className="text-2xl flex items-center gap-2">👥 Apresentação das Equipes</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="mb-4 text-muted-foreground">Teremos <b>34 pessoas</b>, divididas em 4 equipes com quantidades equilibradas. Cada equipe receberá uma tarefa prática relacionada à organização do nosso encontro — algo simples e dentro das nossas necessidades.</p>
+              <p className="mb-4 text-muted-foreground">São <b>34 pessoas</b>, divididas em 4 equipes equilibradas. Cada equipe já está pronta para os desafios e atividades que virão!</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {equipes.map((equipe, idx) => (
                   <Card key={idx} className={`border-2 ${coresEquipes[idx]} animate-fade-in`}>
@@ -176,16 +108,55 @@ export default function Gincana() {
                   </Card>
                 ))}
               </div>
-              <div className="mt-6">
-                <p className="font-semibold mb-2">Exemplos de tarefas:</p>
-                <ul className="list-disc pl-6 text-muted-foreground">
-                  {tarefasExemplo.map((t, i) => <li key={i}>{t}</li>)}
-                </ul>
-                <p className="mt-2 text-sm text-muted-foreground">As tarefas serão distribuídas com antecedência para que cada equipe possa se organizar.</p>
-              </div>
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* Desafios Especiais */}
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+          <Card className="mb-8 border-4 border-primary animate-slide-up shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-3xl flex items-center gap-2 text-primary">🔥 1. Desafio dos Molhos – Noite do Macarrão</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4 text-lg text-muted-foreground">A ceia será uma noite especial de macarrão, e cada equipe ficará responsável por preparar e levar um tipo de molho:</p>
+              <ul className="list-disc pl-6 text-lg mb-4">
+                <li><b>Equipe 1:</b> Molho Bolonhesa de Carne</li>
+                <li><b>Equipe 2:</b> Molho Bechamel (molho branco)</li>
+                <li><b>Equipe 3:</b> Molho Bolonhesa de Frango</li>
+                <li><b>Equipe 4:</b> Molho Quatro Queijos</li>
+              </ul>
+              <p className="text-md text-muted-foreground">Cada molho deve ser entregue pronto para servir, com atenção à apresentação e praticidade.</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}>
+          <Card className="mb-8 border-4 border-green-500 animate-slide-up shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-3xl flex items-center gap-2 text-green-700">🎉 2. Desafio de Organização do Sítio</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4 text-lg text-muted-foreground">Cada equipe ficará responsável por organizar e decorar uma área específica do sítio:</p>
+              <ul className="list-disc pl-6 text-lg mb-4">
+                <li><b>Equipe 1:</b> Decoração próxima à piscina</li>
+                <li><b>Equipe 2:</b> Decoração próxima à churrasqueira</li>
+                <li><b>Equipe 3:</b> Itens de higiene e organização/decoração dos banheiros</li>
+                <li><b>Equipe 4:</b> Organização e decoração dos quartos
+                  {/* <ul className="list-disc pl-6 text-base mt-2">
+                    <li>Definir onde será o quarto de cada pessoa.</li>
+                    <li>Como não há camas para todos, providenciar colchões para dormir no chão (são 25 camas pelo sítio, então 10 pessoas precisarão dormir em colchão).</li>
+                    <li>Organizar e distribuir os colchões nos quartos.</li>
+                    <li>Colocar nomes nas portas dos quartos para facilitar a identificação.</li>
+                    <li>Decorar os quartos</li>
+                  </ul> */}
+                </li>
+              </ul>
+              <p className="text-md text-muted-foreground">Essas tarefas devem ser realizadas <b>antes do início das atividades principais</b>, garantindo que todos cheguem e encontrem o ambiente preparado e acolhedor.</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+
 
         {/* Entrega */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
@@ -225,29 +196,7 @@ export default function Gincana() {
           </Card>
         </motion.div>
 
-        {/* Cartões */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-          <Card className="animate-slide-up">
-            <CardHeader>
-              <CardTitle className="text-2xl flex items-center gap-2">🚨 Cartões (Pontos Negativos)</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {cartoes.map((c, i) => (
-                  <Card key={i} className={`border-2 ${c.cor}`}>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-lg">{c.titulo} <Badge variant="outline">{c.pontos} pts</Badge></CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-sm">{c.descricao}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <p className="mt-4 text-muted-foreground text-sm">Um toque de humor pra deixar tudo mais divertido!</p>
-            </CardContent>
-          </Card>
-        </motion.div>
+
 
         {/* Objetivo */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
