@@ -181,8 +181,8 @@ export default function Gincana() {
               <p className="mb-4 text-lg text-muted-foreground">Cada equipe ficará responsável por organizar e decorar uma área específica do sítio:</p>
               <ul className="list-disc pl-6 text-lg mb-4">
                 <li><b>Equipe 1:</b> Decoração próxima à piscina</li>
-                <li><b>Equipe 2:</b> Decoração próxima à churrasqueira</li>
-                <li><b>Equipe 3:</b> Itens de higiene e organização/decoração dos banheiros</li>
+                <li><b>Equipe 2:</b>Itens de higiene e organização/decoração dos banheiros </li>
+                <li><b>Equipe 3:</b> Decoração próxima à churrasqueira</li>
                 <li><b>Equipe 4:</b> Organização e decoração dos quartos
                   {/* <ul className="list-disc pl-6 text-base mt-2">
                     <li>Definir onde será o quarto de cada pessoa.</li>
@@ -246,7 +246,7 @@ export default function Gincana() {
               <CardTitle className="text-2xl flex items-center gap-2">🎉 Objetivo</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">O objetivo é se divertir, trabalhar em equipe e ajudar a tornar o nosso final de semana mais organizado, leve e com mais interação entre todos.<br/>No final, somamos as pontuações e declaramos a Equipe Campeã da Gincana de Natal 2025!</p>
+              <p className="text-muted-foreground">O objetivo é se divertir, trabalhar em equipe e ajudar a tornar o nosso final de semana mais organizado, leve e com mais interação entre todos.<br />No final, somamos as pontuações e declaramos a Equipe Campeã da Gincana de Natal 2025!</p>
             </CardContent>
           </Card>
         </motion.div>
