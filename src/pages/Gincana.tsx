@@ -5,13 +5,56 @@ import { motion } from "framer-motion";
 
 // Lista real de participantes
 
+
 const equipes = [
-  ["Jander", "Raíza", "Flávio", "Fabi", "Anne", "Gustavo", "Eduardo", "Larissa"],
-  ["Jeferson", "Carol", "Marcella", "Raí Marcel", "Vanessa", "Fabrícia", "Marcelino", "Marlene"],
-  ["Thayson", "Bruna Lais", "Nelci", "Heleno", "Iracema", "Regina Lopes", "Sebastiana Georgina", "José Lopes"],
-  ["Roanna", "Estevão", "João Lucas", "Jéssica", "Mercilene", "Domitilla", "Miguel", "José Gabriel"],
+  [
+    "Nelci",
+    "Heleno",
+    "Sebastiana Georgina",
+    "Gustavo",
+    "Anne",
+    "Jeferson",
+    "Carol",
+    "Eduardo",
+    "Lis 👧"
+  ],
+  [
+    "Roanna",
+    "Estevão",
+    "Iracema",
+    "Flávio",
+    "Fabi",
+    "Thayson",
+    "Bruna Lais",
+    "Larissa",
+    "Hoji 👦",
+    "Pérola 👧"
+  ],
+  [
+    "Marlene",
+    "Marcelino",
+    "José Lopes",
+    "Marcella",
+    "Raí Marcel",
+    "Vanessa",
+    "Fabrícia",
+    "José Gabriel"
+    // Nenhuma criança nesta equipe
+  ],
+  [
+    "Regina Lopes",
+    "Mercilene",
+    "João Lucas",
+    "Jéssica",
+    "Jander",
+    "Raíza",
+    "Miguel",
+    "Domitilla",
+    "Melina 👧",
+    "Jamile 👧"
+  ]
 ];
-const nomesEquipes = [" Equipe 1", " Equipe 2", "Equipe 3", " Equipe 4"];
+const nomesEquipes = ["Equipe 1", "Equipe 2", "Equipe 3", "Equipe 4"];
 const coresEquipes = ["bg-blue-100 text-blue-800", "bg-red-100 text-red-800", "bg-green-100 text-green-800", "bg-yellow-100 text-yellow-800"];
 const iconesEquipes = ["🟦", "🟥", "🟩", "🟨"];
 

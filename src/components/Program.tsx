@@ -47,26 +47,12 @@ const activitiesSabado: Activity[] = [
       color: "bg-primary/10 text-primary",
     },
     {
-      time: "19:30",
+      time: "20:30",
       title: "Jantar Especial",
       description: "Mesa farta com receitas tradicionais da família! Pratos preparados com carinho e aquele gostinho de casa. Momento de reunir todos à mesa.",
       icon: "🍽️",
       color: "bg-accent/10 text-accent",
-    },
-    {
-      time: "20:30",
-      title: "Momento Família",
-      description: "Hora especial de compartilhar histórias, memórias e fortalecer laços. Espaço aberto para depoimentos emocionantes e celebração de conquistas.",
-      icon: "❤️",
-      color: "bg-primary/10 text-primary",
-    },
-    {
-      time: "21:30",
-      title: "Encerramento e Sobremesa",
-      description: "Doces momentos! Sobremesas deliciosas e café para finalizar nosso dia. Leve para casa não só as lembranças, mas também a certeza de que somos uma grande família.",
-      icon: "🍰",
-      color: "bg-secondary/10 text-secondary",
-    },
+    }
   ];
 
 const activitiesDomingo: Activity[] = [
@@ -104,7 +90,7 @@ const Program = ({ onCountdownChange }: ProgramProps) => {
   const [countdown, setCountdown] = useState<{days: number, hours: number, minutes: number, seconds: number} | null>(null);
 
   useEffect(() => {
-    const targetDate = new Date('2025-12-10T00:00:00').getTime();
+    const targetDate = new Date('2025-12-09T20:10:00').getTime();
 
     const updateCountdown = () => {
       const now = new Date().getTime();
