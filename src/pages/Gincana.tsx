@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const equipes = [
   [
-    "Nelci",
+    "Bruna",
     "Heleno",
     "Sebastiana Georgina",
     "Gustavo",
@@ -24,8 +24,6 @@ const equipes = [
     "Iracema",
     "Flávio",
     "Fabi",
-    "Thayson",
-    "Bruna Lais",
     "Larissa",
     "Hoji 👦",
     "Pérola 👧"
