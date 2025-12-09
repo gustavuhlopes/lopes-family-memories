@@ -1,6 +1,8 @@
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 
 // Lista real de participantes
@@ -108,6 +110,13 @@ export default function Gincana() {
   return (
     <section className="py-16 bg-background min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl space-y-10">
+        {/* Botão de voltar para home */}
+        <div className="mb-4">
+          <Link to="/" className="inline-flex items-center gap-2 text-primary hover:underline text-lg font-medium">
+            <span aria-hidden="true" className="text-2xl">←</span>
+            <span>Voltar para a Home</span>
+          </Link>
+        </div>
         {/* Lançamento das Atividades e Apresentação das Equipes */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
           <div className="text-center space-y-3">
